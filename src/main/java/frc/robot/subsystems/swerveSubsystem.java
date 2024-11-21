@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.swerveDriveConstants;
 import frc.robot.swerveModules;
@@ -68,7 +69,8 @@ public class swerveSubsystem extends SubsystemBase {
 
 
     public void setModuleStates(double xSpeed, double ySpeed, double rotation, boolean fieldRelative){
-            SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates( fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed,-ySpeed,rotation,getAngle()) : new ChassisSpeeds(xSpeed,-ySpeed,rotation));
+            SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(
+                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed,-ySpeed,rotation,getAngle()) : new ChassisSpeeds(xSpeed,-ySpeed,rotation));
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates,swerveDriveConstants.maxSpeedMetersPerSecond);
             frontLeftModule.setDesiredState(moduleStates[0]);
             frontRightModule.setDesiredState(moduleStates[1]);
@@ -99,4 +101,12 @@ public class swerveSubsystem extends SubsystemBase {
         backRightModule.resetToStarting();       
     }
 
+    @Override
+    public void periodic(){
+        odometry.update(getAngle(), getModulePositions());
+        SmartDashboard.putNumber("Front Left Angle", frontLeftModule.getPosition().angle.getDegrees());
+        SmartDashboard.putNumber("Front Right Angle", frontRightModule.getPosition().angle.getDegrees());
+        SmartDashboard.putNumber("Back Left Angle", backLeftModule.getPosition().angle.getDegrees());
+        SmartDashboard.putNumber("Back Right Angle", backRightModule.getPosition().angle.getDegrees());
+    }
 }

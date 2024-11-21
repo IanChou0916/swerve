@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,18 +26,19 @@ public class swerveDrive extends Command {
         yLimiter = new SlewRateLimiter(swerveDriveConstants.driveYMaxAccel);
         rotLimiter = new SlewRateLimiter(swerveDriveConstants.driveRotMaxAccel);
         addRequirements(swerve);
+        
     }
     
     @Override
     public void execute(){
         double xSpeed = xSupplier.get();
         double ySpeed = ySupplier.get();
-        double rot = rotSupplier.get();
+        double rot = MathUtil.applyDeadband(rotSupplier.get(), swerveDriveConstants.driveDeadband);
         boolean fieldRelative = fieldRelativeSupplier.get();
 
         xSpeed = Math.abs(xSpeed) > swerveDriveConstants.driveDeadband ? xSpeed : 0;
         ySpeed = Math.abs(ySpeed) > swerveDriveConstants.driveDeadband ? ySpeed : 0;
-        rot = Math.abs(rot) > swerveDriveConstants.driveDeadband ? rot : 0;
+        //rot = Math.abs(rot) > swerveDriveConstants.driveDeadband ? rot : 0;
 
         xSpeed = xLimiter.calculate(xSpeed) * swerveDriveConstants.maxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * swerveDriveConstants.maxSpeedMetersPerSecond;

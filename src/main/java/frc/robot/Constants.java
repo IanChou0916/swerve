@@ -11,10 +11,10 @@ import frc.robot.lib.swerveModuleConstants;
 public final class Constants {
   public static class swerveDriveConstants {
     // TODO: get real values
-    public static final double chassisLength = 0.75;
-    public static final double chassisWidth = 0.75;
+    public static final double chassisLength = 0.59825;
+    public static final double chassisWidth = 0.59825; // It should be trackwidth.
    
-    public static final double driveKp = 0.0009;
+    public static final double driveKp = 0.0001;
     public static final double driveKi = 0.0;
     public static final double driveKd = 0.0;
 
@@ -37,8 +37,8 @@ public final class Constants {
     public static final boolean driveMotorInverted = true;
     public static final boolean angleMotorInverted = false;
 
-    public static final double maxSpeedMetersPerSecond = Units.feetToMeters(15.1);
-    public static final double maxDegreePerSecond = 4.5;
+    public static final double maxSpeedMetersPerSecond = 1.5;
+    public static final double maxDegreePerSecond = 3.0;
 
     public static final Rotation2d backRightAngleOffset = Rotation2d.fromRotations(0.007);
     public static final Rotation2d frontRightAngleOffset = Rotation2d.fromRotations(0.626);
@@ -60,8 +60,8 @@ public final class Constants {
     public static final Translation2d backLeftPosition = new Translation2d(-chassisLength/2,chassisWidth/2);
     public static final Translation2d backRightPosition = new Translation2d(-chassisLength/2,-chassisWidth/2);
     
-    public static final double driveXMaxAccel = 2.5;
-    public static final double driveYMaxAccel = 2.5;
+    public static final double driveXMaxAccel = 1.5;
+    public static final double driveYMaxAccel = 1.5;
     public static final double driveRotMaxAccel = 3;
 
     public static final double driveDeadband = 0.05;
